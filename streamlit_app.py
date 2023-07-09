@@ -1,38 +1,58 @@
-from collections import namedtuple
-import altair as alt
-import math
-import pandas as pd
 import streamlit as st
 
-"""
-# Welcome to Streamlit!
+st.markdown('Perritos perdidos')
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+import streamlit as st
+import streamlit.components.v1 as components
+from streamlit_option_menu import option_menu
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+from gspread_pandas import Spread,Client
+from google.oauth2 import service_account
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+import pandas as pd
+
+from PIL import Image
+import plotly.express as px
 
 
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+api_token=st.secrets['mapbox']
 
-    Point = namedtuple('Point', 'x y')
-    data = []
+# Create a connection object.
+def objeto_conexion():
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    credentials = service_account.Credentials.from_service_account_info(st.secrets['gcp_service_account'],scopes=scope)
+    client =Client(scope=scope,creds=credentials)
+    spreadsheetname='direcciones_perritos'
+    spread=Spread(spreadsheetname,client=client)
+    sh=client.open(spreadsheetname)
+    worksheet_list=sh.worksheets()
+    return spreadsheetname, sh, spread, worksheet_list
 
-    points_per_turn = total_points / num_turns
+def load_the_spreadsheet(spreadsheetname):
+    worksheet =sh.worksheet(spreadsheetname)
+    df = pd.DataFrame(worksheet.get_all_records())
+    return df
 
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
+def plotea_mapa():
+    global api_token, mapa
+    fig=px.scatter_mapbox(mapa,
+                              lat='Lat',
+                              lon='Lon',
+                              hover_name='Nombre',
+                              hover_data=['Especie','Provincia','Ciudad','Imagen'],
+                              color=mapa['Especie'],
+                              size_max=1000000,
+                              zoom=8,
+                              mapbox_style='stamen-toner'
+                              )
+    
+    fig.update_layout(autosize=True,hovermode='closest',mapbox=dict(accesstoken=api_token['api_token'],bearing=0,center=dict(lat=41.885507669452906,lon=-87.70404201777987),pitch=0,zoom=10))
+    fig.update_traces(marker=dict(size=10))
+    fig.update_layout(scattermode='group',margin={'r':0,'t':0,'l':0,'b':0})
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+    return st.plotly_chart(fig)
+
+mapa=load_the_spreadsheet("Hoja 2")
+plotea_mapa()
+
+spreadsheetname, sh, spread, worksheet_list = objeto_conexion()
