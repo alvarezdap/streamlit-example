@@ -2,10 +2,8 @@ import streamlit as st
 
 from gspread_pandas import Spread,Client
 from google.oauth2 import service_account
-
 import pandas as pd
 
-from PIL import Image
 import plotly.express as px
 
 st.markdown('Perritos perdidos')
