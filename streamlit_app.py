@@ -10,7 +10,8 @@ st.markdown('Perritos perdidos')
 st.markdown('''La suposición de que los animales no tienen derechos y la ilusión de que nuestro trato hacia ellos no tiene ninguna 
             importancia moral es un ejemplo positivamente escandaloso de grosería y barbarie occidental. La compasión universal es 
             la única garantía de la moralidad.
-            Arthur Schopenhauer''')
+            ''')
+st.title('Arthur Schopenhauer')
 api_token=st.secrets['mapbox']
 
 # Create a connection object.
