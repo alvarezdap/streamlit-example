@@ -1,11 +1,5 @@
 import streamlit as st
 
-st.markdown('Perritos perdidos')
-
-import streamlit as st
-import streamlit.components.v1 as components
-from streamlit_option_menu import option_menu
-
 from gspread_pandas import Spread,Client
 from google.oauth2 import service_account
 
@@ -14,6 +8,7 @@ import pandas as pd
 from PIL import Image
 import plotly.express as px
 
+st.markdown('Perritos perdidos')
 
 api_token=st.secrets['mapbox']
 
