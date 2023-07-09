@@ -27,7 +27,8 @@ def load_the_spreadsheet(spreadsheetname):
     return df
 
 def plotea_mapa():
-    global api_token, mapa
+    global api_token
+    mapa=load_the_spreadsheet("Hoja 1")
     fig=px.scatter_mapbox(mapa,
                               lat='Lat',
                               lon='Lon',
@@ -46,7 +47,6 @@ def plotea_mapa():
     return st.plotly_chart(fig)
 
 spreadsheetname, sh, spread, worksheet_list = objeto_conexion()
-mapa=load_the_spreadsheet("Hoja 1")
 plotea_mapa()
 
 
