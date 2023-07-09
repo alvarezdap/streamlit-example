@@ -45,7 +45,8 @@ def plotea_mapa():
 
     return st.plotly_chart(fig)
 
+spreadsheetname, sh, spread, worksheet_list = objeto_conexion()
 mapa=load_the_spreadsheet("Hoja 1")
 plotea_mapa()
 
-spreadsheetname, sh, spread, worksheet_list = objeto_conexion()
+
