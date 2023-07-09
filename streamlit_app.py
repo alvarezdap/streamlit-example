@@ -33,7 +33,7 @@ def plotea_mapa():
                               lat='Lat',
                               lon='Lon',
                               hover_name='Nombre',
-                              hover_data=['Especie','Provincia','Ciudad','Imagen'],
+                              hover_data=['Especie','Provincia','Ciudad'],
                               color=mapa['Especie'],
                               size_max=1000000,
                               zoom=8,
