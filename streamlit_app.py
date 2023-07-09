@@ -40,8 +40,8 @@ def plotea_mapa():
                               mapbox_style='stamen-toner'
                               )
     
-    fig.update_layout(autosize=True,hovermode='closest',mapbox=dict(accesstoken=api_token['api_token'],bearing=0,center=dict(lat=41.885507669452906,lon=-87.70404201777987),pitch=0,zoom=10))
-    fig.update_traces(marker=dict(size=10))
+    fig.update_layout(autosize=True,hovermode='closest',mapbox=dict(accesstoken=api_token['api_token'],bearing=0,center=dict(lat=-1.4386338911881158,lon=-78.34621847043944),pitch=0,zoom=15))
+    fig.update_traces(marker=dict(size=10))                                                                                  
     fig.update_layout(scattermode='group',margin={'r':0,'t':0,'l':0,'b':0})
 
     return st.plotly_chart(fig)
