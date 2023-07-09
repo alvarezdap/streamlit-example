@@ -49,4 +49,7 @@ def plotea_mapa():
 spreadsheetname, sh, spread, worksheet_list = objeto_conexion()
 plotea_mapa()
 
+def anadir_mascotas():
+    option = st.selectbox('Mascota',('Perro','Gato'))
 
+anadir_mascotas()
